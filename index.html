@@ -2310,9 +2310,21 @@ function renderChrome(){
   document.getElementById('sheetNav').innerHTML=visible.map(r=>
     '<button class="nav-item'+(ui.route===r.id?' active':'')+'" data-action="nav:go" data-to="'+r.id+'">'+ic(r.icon)+r.label+'</button>').join('');
 }
+function renderLockedPage(){
+  const labels={meals:'Meals',habits:'Habits',progress:'Progress',grocery:'Grocery'};
+  const label=labels[ui.route]||'Premium feature';
+  const el=document.getElementById('screen');
+  el.innerHTML='<div class="screen-head"><div><div class="eyebrow">Premium feature</div><h1>'+label+'</h1><p class="sub">This page is included in the full Workout Tracker experience.</p></div></div>'
+    +'<div class="card" style="max-width:760px;margin:30px auto;padding:clamp(24px,5vw,48px);text-align:center">'
+    +'<div style="width:76px;height:76px;border-radius:24px;background:var(--primary-soft);color:var(--primary);display:grid;place-items:center;margin:0 auto 20px">'+ic('lock').replace('<svg','<svg style="width:34px;height:34px"')+'</div>'
+    +'<div class="eyebrow">Unlock the full planner</div><h2 style="font-size:clamp(30px,5vw,42px);margin:8px 0 12px">Your next level starts here.</h2>'
+    +'<p class="muted" style="max-width:480px;margin:0 auto 22px">Meals, Habits, Progress and Grocery are locked in this preview. Get the complete version to unlock all pages and features.</p>'
+    +'<a class="btn primary" href="https://lacasaprint.etsy.com/listing/4588090871" target="_blank" rel="noopener noreferrer" style="text-decoration:none;display:inline-flex;padding:13px 24px">Unlock Full Version '+ic('arrow-up-right')+'</a>'
+    +'<p class="small muted" style="margin:16px 0 0">Secure checkout on Etsy · LaCasaPrint</p></div>';
+}
 function render(){
   renderChrome();
-  const R={dashboard:renderDashboard,weight:renderWeight,workouts:renderWorkouts,calories:renderCalories,meals:renderMeals,habits:renderHabits,progress:renderProgress,grocery:renderGrocery,settings:renderSettings};
+  const R={dashboard:renderDashboard,weight:renderWeight,workouts:renderWorkouts,calories:renderCalories,meals:renderLockedPage,habits:renderLockedPage,progress:renderLockedPage,grocery:renderLockedPage,settings:renderSettings};
   (R[ui.route]||renderDashboard)();
   updateNotice(); updateFoot();
   document.body.classList.toggle('help-off',!S().settings.help);
